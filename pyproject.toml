@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "keystone-nfc"
+version = "0.1.0"
+description = "NFC card event monitoring and UID reading via PC/SC (WinSCard / pcsc-lite)"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+authors = [{name = "ElCuboNegro", email = ""}]
+keywords = ["nfc", "pcsc", "rfid", "iso15693", "smartcard", "hardware"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Hardware",
+    "Topic :: Security",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Typing :: Typed",
+]
+# ctypes is stdlib — no runtime dependencies for the core package
+dependencies = []
+
+[project.optional-dependencies]
+# Install to use VaultWatcher (real-time file sync)
+vault = [
+    "watchdog>=4.0",
+    "cryptography>=41.0",
+]
+# Install to use the full GUI demo
+gui = [
+    "watchdog>=4.0",
+    "cryptography>=41.0",
+    "pystray>=0.19",
+    "Pillow>=10.0",
+]
+# Developer tools
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.0",
+    "mypy>=1.5",
+    "ruff>=0.1",
+]
+
+[project.urls]
+Homepage   = "https://github.com/ElCuboNegro/Keystone"
+Repository = "https://github.com/ElCuboNegro/Keystone"
+
+[tool.setuptools.packages.find]
+where   = ["."]
+include = ["keystone_nfc*"]
+
+[tool.mypy]
+python_version       = "3.11"
+strict               = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length    = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
+markers   = ["hardware: requires a physical NFC card in the reader"]

@@ -1,0 +1,26 @@
+# Decompilation, Archaeology & Backtracking Suite
+# Install with: pip install -r requirements.txt
+
+# ─── PE / Binary analysis ────────────────────────────────────────────────────
+pefile>=2024.8.26          # PE structure: imports, exports, sections, headers
+capstone>=5.0.1            # Multi-architecture disassembler (x86, ARM, etc.)
+r2pipe>=1.9.0              # Radare2 API bridge (requires radare2 installed separately)
+
+# ─── NFC / Smart Card ────────────────────────────────────────────────────────
+# pyscard requires Visual Studio C++ build tools on Windows.
+# Install via pre-built wheel: pip install pyscard --find-links https://github.com/LudovicRousseau/pyscard/releases
+# OR: install Visual Studio Build Tools, then: pip install pyscard
+# On Linux: sudo apt install python3-pyscard OR pip install pyscard
+
+# ─── Analysis utilities ──────────────────────────────────────────────────────
+python-dotenv>=1.0.0       # Environment variable management
+rich>=13.0.0               # Pretty terminal output (tables, progress bars)
+click>=8.1.0               # CLI framework for agent tools
+
+# ─── Network / Web (for Unknown Domain Protocol — fetching standards) ────────
+requests>=2.31.0           # HTTP requests for fetching RFCs/datasheets
+beautifulsoup4>=4.12.0     # HTML parsing for scraping standard documents
+lxml>=5.0.0                # Fast XML/HTML parser
+
+# ─── Data / Output ───────────────────────────────────────────────────────────
+# All standard library — no extra deps needed for JSON/Markdown output

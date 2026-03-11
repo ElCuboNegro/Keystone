@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "2da184524fccbd05",
+    "type": "split",
+    "children": [
+      {
+        "id": "4e4d795db9973171",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9d795f41dd26b4ff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "skills/retro-engineer.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "retro-engineer"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "41036715694812e6",
+    "type": "split",
+    "children": [
+      {
+        "id": "06341a0a503ce544",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a3ee3e8dd35d15ad",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "2a02929b7183e228",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "4f491603086168a1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "8cf12e94494d0c19",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ad076aeefaadf04",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1a069f8e8c0c34a4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "skills/retro-engineer.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de retro-engineer"
+            }
+          },
+          {
+            "id": "047a6c4cf75d6a14",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "skills/retro-engineer.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de retro-engineer"
+            }
+          },
+          {
+            "id": "ba03dd5ae915c603",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "3017330ac0a67ff0",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "647db2b7a27860b7",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "skills/retro-engineer.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de retro-engineer"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "9d795f41dd26b4ff",
+  "lastOpenFiles": [
+    "pyproject.toml.tmp.12864.1773208844512",
+    "tests/__pycache__/test_e2e_vault.cpython-314-pytest-9.0.2.pyc",
+    "tests/test_e2e_vault.py",
+    "keystone_nfc/__pycache__/watcher.cpython-314.pyc",
+    "keystone_nfc/__pycache__/registry.cpython-314.pyc",
+    "tests/__pycache__/test_registry.cpython-314-pytest-9.0.2.pyc",
+    "tests/__pycache__/test_exceptions.cpython-314-pytest-9.0.2.pyc",
+    "tests/__pycache__/test_card.cpython-314-pytest-9.0.2.pyc",
+    "tests/__pycache__/__init__.cpython-314.pyc",
+    "tests/__pycache__",
+    "keystone_nfc/registry.py.tmp.12864.1773208271842",
+    "README.md",
+    "CHANGELOG.md",
+    "DEMO/docs/adr/ADR-D005-demo-library-separation.md",
+    "DEMO/docs/adr/ADR-D004-docker-experiment-isolation.md",
+    "DEMO/docs/adr/ADR-D003-security-mismatch-policy.md",
+    "DEMO/docs/adr/ADR-D002-thread-queue-pattern.md",
+    "DEMO/docs/adr/ADR-D001-gui-framework-tkinter.md",
+    "DEMO/docs/adr/index.md",
+    "DEMO/README.md",
+    "skills/gitops-expert.md",
+    "skills/ux-expert.md",
+    "skills/database-expert.md",
+    "skills/security-expert.md",
+    "skills/architect.md",
+    "skills/nfc-rfid-specialist.md",
+    "skills/hardware-analyst.md",
+    "skills/embedded-specialist.md",
+    "skills/decision-logger.md",
+    "CLAUDE.md",
+    "docs/adr/ADR-0006-card-trigger-via-atkhotkey-acpi.md",
+    "docs/adr/ADR-0005-linux-port-requires-acr122u.md",
+    "docs/adr/ADR-0004-card-identified-by-uid-only.md",
+    "docs/adr/ADR-0003-nfccx-no-escape-commands.md",
+    "docs/adr/ADR-0002-scard-unpower-card-root-cause.md",
+    "docs/adr/ADR-0001-pcsc-as-smartcard-abstraction.md"
+  ]
+}
