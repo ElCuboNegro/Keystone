@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build-library:
+    name: Build Python Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tool
+        run: pip install build
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package
+          path: dist/*
+
+  build-binaries:
+    name: Build Standalone Binaries
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            suffix: .exe
+            os-name: windows
+          - os: ubuntu-latest
+            suffix: ""
+            os-name: linux
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libpcsclite-dev pcscd
+
+      - name: Install package and PyInstaller
+        # Install with [gui] optional dependencies so pyinstaller finds them
+        run: |
+          pip install -e ".[gui]"
+          pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: pyinstaller --noconfirm --onefile --windowed --name "KeystoneVault-${{ matrix.os-name }}" "DEMO/keystone_gui.py"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.os-name }}
+          path: dist/KeystoneVault-${{ matrix.os-name }}${{ matrix.suffix }}
+
+  publish-release:
+    name: Publish Release
+    needs: [build-library, build-binaries]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: output
+          merge-multiple: true
+
+      - name: Display downloaded files
+        run: ls -la output/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/*
+          # If triggered by a tag, softprops action automatically infers the tag
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'manual-build' }}
+          generate_release_notes: true
