@@ -1,0 +1,15 @@
+{
+  "project_name": "My Project",
+  "project_slug": "my-project",
+  "package_name": "my_package",
+  "github_username": "myuser",
+  "description": "A Python project with agentic CI/CD and ADR-first mandate",
+  "author": "Your Name",
+  "python_version": "3.11",
+  "library_path": "library",
+  "adr_path": "docs/adr",
+  "_copy_without_render": [
+    "tools/check_adr_gate.py",
+    ".github/workflows/ci.yml"
+  ]
+}
