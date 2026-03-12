@@ -37,13 +37,7 @@ keystone/
 │   ├── CONTRIBUTING.md
 │   └── README.md
 │
-└── demo/              ← DEMO APPLICATION
-    ├── keystone_gui.py     ← tkinter vault manager GUI
-    ├── keystone_encrypt.py ← standalone encrypt/decrypt CLI (release binary)
-    ├── nfc_reader_demo.py
-    ├── requirements.txt
-    ├── docker/           ← experiment Dockerfiles
-    └── docs/adr/         ← architectural decisions (demo)
+└── [demo removed — lives at github.com/ElCuboNegro/Keystone_encrypt]
 ```
 
 ## 3. Initialization & Setup
@@ -123,7 +117,7 @@ Expected file structures:
 Rules:
 * Code archeology output (findings, BDD specs, call graphs) goes to `retro/output/`
 * Code writing output (new packages, libraries, CLI tools) goes to `library/`
-* Demo applications that USE those outputs go to `demo/`
+* Demo applications that USE those outputs live in [`ElCuboNegro/Keystone_encrypt`](https://github.com/ElCuboNegro/Keystone_encrypt)
 * Each output must have its own ADR trail — no undocumented architectural decisions
 
 ## 10. Layer Separation — Libraries vs Demos
@@ -133,7 +127,7 @@ Three distinct layers. **Never mix them.**
 | Layer | Location | What it is |
 |-------|----------|------------|
 | **Library output** | `library/` (e.g., `keystone_nfc/`, `folder_lock.py`) | Reusable packages and CLIs produced by the Architect |
-| **Demo application** | `demo/` | Applications that USE the library: `keystone_gui.py` (GUI), `keystone_encrypt.py` (CLI binary) |
+| **Demo application** | [`ElCuboNegro/Keystone_encrypt`](https://github.com/ElCuboNegro/Keystone_encrypt) | Separate repo: vault GUI + CLI binary that consume this library |
 | **Experiment** | `demo/docker/` + `retro/experiments/` | Isolated probes to test/understand behavior/demo a complete implementation of a feature  |
 
 Rules:
@@ -148,8 +142,7 @@ Rules:
 **All code executions for testing or understanding behavior run in Docker containers.**
 No experiment may modify the host OS or install packages into the host Python environment.
 
-* Experiment Dockerfiles live in `demo/docker/`
-* Results are written to `retro/experiments/` via volume mounts
+* Experiment Dockerfiles live in `retro/experiments/` (base image: `ElCuboNegro/Keystone_encrypt` docker/ directory)
+* Results are written to `retro/output/` via volume mounts
 * Exception: hardware-level experiments (NFC, USB) may run natively on Windows when
   Docker cannot pass through the device — document this explicitly in the experiment header
-* Use `demo/docker/Dockerfile.experiment` as the base for all new experiment containers

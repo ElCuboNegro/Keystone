@@ -5,9 +5,10 @@ Monorepo for the Keystone NFC smart-card project. Three layers, clearly separate
 ```
 keystone/
 ├── retro/     ← reverse-engineering, archaeology, hardware research
-├── library/   ← keystone-nfc Python package + tests
-└── demo/      ← GUI vault manager application
+└── library/   ← keystone-nfc Python package + tests
 ```
+
+Demo application lives in a separate repo: [ElCuboNegro/Keystone_encrypt](https://github.com/ElCuboNegro/Keystone_encrypt)
 
 ---
 
@@ -16,9 +17,6 @@ keystone/
 ```bash
 # Install the library (from repo root)
 pip install -e "library/.[gui,vault]"
-
-# Run the GUI demo
-python demo/keystone_gui.py
 
 # Run tests
 cd library && pytest tests/ -m "not hardware"
@@ -41,12 +39,6 @@ Python package for NFC card event monitoring via PC/SC (WinSCard / pcsc-lite).
 - `pyproject.toml` — package metadata and build config
 
 See [`library/README.md`](library/README.md) for full API docs.
-
-### `demo/` — Keystone Vault GUI
-
-tkinter + pystray GUI that uses `keystone-nfc` to lock/unlock a folder vault when an NFC card is tapped.
-
-See [`demo/`](demo/) for setup and architecture notes.
 
 ### `retro/` — Reverse Engineering Layer
 

@@ -47,7 +47,15 @@
       "Bash(ls -la demo/ 2>/dev/null && echo \"EXIT: $?\")",
       "Bash(python -c \"import os; print\\(os.path.samefile\\('demo', 'DEMO'\\)\\)\")",
       "Bash(ls *.md *.dot 2>/dev/null)",
-      "Bash(cd library:*)"
+      "Bash(cd library:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(cp -r /c/Users/jalba/Desktop/keystone/demo/. /c/Users/jalba/Desktop/Keystone_encrypt/ && ls /c/Users/jalba/Desktop/Keystone_encrypt/)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)"
     ]
   }
 }
