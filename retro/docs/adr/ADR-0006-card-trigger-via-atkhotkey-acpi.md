@@ -96,6 +96,6 @@ Periodic `SCardStatus` call on a timer.
 
 - Related: [ADR-0001](ADR-0001-pcsc-as-smartcard-abstraction.md) — PC/SC layer
 - Related: [ADR-0005](ADR-0005-linux-port-requires-acr122u.md) — Linux trigger replacement needed
-- Knowledge: `knowledge/nfc/soulkey-architecture-research.md`
-- Source: `output/soulkey_deep.json` — UTF-16 strings with ATKACPI references
+- Knowledge: `retro/knowledge/nfc/soulkey-architecture-research.md`
+- Source: `retro/output/soulkey_deep.json` — UTF-16 strings with ATKACPI references
 - Porting note: Replace with `SCardGetStatusChange` on Linux (blocking, no polling needed)

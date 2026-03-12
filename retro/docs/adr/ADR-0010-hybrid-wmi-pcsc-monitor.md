@@ -59,4 +59,4 @@ How can we use this WMI event to restore real-time genuine removal detection, wh
 
 ## Related
 - Supersedes **ADR-0009** (Suppress EMPTY on PC/SC).
-- Relies on findings documented in `knowledge/nfc/soulkey-architecture-research.md` regarding ATKACPI and WMI behavior.
+- Relies on findings documented in `retro/knowledge/nfc/soulkey-architecture-research.md` regarding ATKACPI and WMI behavior.

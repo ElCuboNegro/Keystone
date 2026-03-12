@@ -16,3 +16,5 @@ Managed by `skills/adr-writer.md`. Do not edit ADR files once accepted — super
 | [ADR-0008](ADR-0008-rewake-rf-on-armorycrate-empty.md) | Re-wake NfcCx RF to verify card presence after ArmouryCrate kills field | superseded | 2026-03-11 | NFC / PC-SC |
 | [ADR-0009](ADR-0009-suppress-empty-on-armorycrate-rf-kill.md) | Suppress EMPTY events after successful insert to mitigate ArmouryCrate RF kill | superseded | 2026-03-11 | NFC / PC-SC |
 | [ADR-0010](ADR-0010-hybrid-wmi-pcsc-monitor.md) | Hybrid WMI/PCSC Monitor for Real-time Keystone Removal Detection | accepted | 2026-03-11 | NFC / Windows |
+| [ADR-0011](ADR-0011-two-factor-vault-cryptography.md) | Two-factor vault encryption — PBKDF2 + AES-256-GCM + HMAC deterministic filenames | accepted | 2026-03-11 | Cryptography |
+| [ADR-0012](ADR-0012-startup-probe-before-poll-loop.md) | Startup probe — attempt direct card read before entering SCardGetStatusChange poll loop | accepted | 2026-03-11 | NFC / PC-SC |

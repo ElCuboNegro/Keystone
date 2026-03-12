@@ -104,4 +104,4 @@ Run the logic without real NFC hardware — mock card reads.
 - Caused by: [ADR-0003](ADR-0003-nfccx-no-escape-commands.md) — NfcCx Windows-only
 - Port skeleton: `tools/port/keystone_reader.cpp`
 - Port setup: `tools/port/linux_setup.sh`
-- Knowledge: `knowledge/nfc/acr122u-commands.md`
+- Knowledge: `retro/knowledge/nfc/acr122u-commands.md`

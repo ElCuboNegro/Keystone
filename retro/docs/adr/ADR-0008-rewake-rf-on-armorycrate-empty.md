@@ -94,7 +94,7 @@ How can our PC/SC-based monitor distinguish between ArmouryCrate killing RF (car
 
 ## Implementation Notes
 
-**`_verify_card_present()` in `keystone_nfc/monitor.py`:**
+**`_verify_card_present()` in `library/keystone_nfc/monitor.py`:**
 1. Wait `_REWAKE_DELAY` (1.0s) for AC to finish its "Off NFC" sequence
 2. Attempt `SCardConnect(SCARD_SHARE_SHARED)` up to `_REWAKE_RETRIES` (3) times
 3. On success: disconnect with `SCARD_LEAVE_CARD`, return True
@@ -109,5 +109,5 @@ How can our PC/SC-based monitor distinguish between ArmouryCrate killing RF (car
 - Supersedes ADR-0007's mitigation #2 (inserted_fired guard alone was insufficient)
 - ADR-0007's mitigation #1 (SCardConnect retry) remains in effect
 - Superseded by `ADR-0009` (Suppress EMPTY events)
-- See `knowledge/nfc/soulkey-architecture-research.md` for full DLL analysis
-- See `knowledge/nfc/rf-field-timing.md` for RF field timing reference
+- See `retro/knowledge/nfc/soulkey-architecture-research.md` for full DLL analysis
+- See `retro/knowledge/nfc/rf-field-timing.md` for RF field timing reference

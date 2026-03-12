@@ -93,5 +93,5 @@ Direct access to the NXP chip bypassing all OS abstraction.
 - Related: [ADR-0001](ADR-0001-pcsc-as-smartcard-abstraction.md) — PC/SC layer choice
 - Related: [ADR-0002](ADR-0002-scard-unpower-card-root-cause.md) — RF field control via disposition
 - Related: [ADR-0005](ADR-0005-linux-port-requires-acr122u.md) — Linux porting consequence
-- Knowledge: `knowledge/nfc/acr122u-commands.md`
-- Knowledge: `knowledge/nfc/rf-field-timing.md`
+- Knowledge: `retro/knowledge/nfc/acr122u-commands.md`
+- Knowledge: `retro/knowledge/nfc/rf-field-timing.md`

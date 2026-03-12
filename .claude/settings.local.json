@@ -55,7 +55,11 @@
       "Bash(gh api:*)",
       "Bash(cp -r /c/Users/jalba/Desktop/keystone/demo/. /c/Users/jalba/Desktop/Keystone_encrypt/ && ls /c/Users/jalba/Desktop/Keystone_encrypt/)",
       "Bash(git push:*)",
-      "Bash(git remote:*)"
+      "Bash(git remote:*)",
+      "Bash(xargs ls:*)",
+      "Bash(find . -type f -not -path \"*__pycache__*\" -exec ls -lh {})",
+      "Bash(grep -n \"\\\\]\\(knowledge\\\\|]\\\\\\(experiments\\\\|]\\\\\\(output\" retro/docs/adr/*.md | head -10)",
+      "Bash(grep -n \"]\\(knowledge\" retro/docs/adr/*.md | head -10 && echo \"---\" && grep -n \"]\\(experiments\" retro/docs/adr/*.md | head -10)"
     ]
   }
 }

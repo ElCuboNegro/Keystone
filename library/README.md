@@ -515,6 +515,8 @@ All non-trivial design decisions are documented as ADRs in the monorepo at
 | [ADR-0005](https://github.com/ElCuboNegro/Keystone/blob/master/retro/docs/adr/ADR-0005-linux-port-requires-acr122u.md) | Linux port requires ACR122U (NfcCx is Windows-only) |
 | [ADR-0007](https://github.com/ElCuboNegro/Keystone/blob/master/retro/docs/adr/ADR-0007-armorycrate-pcsc-contention-mitigations.md) | SCardConnect retry for ASUS exclusive-lock window |
 | [ADR-0010](https://github.com/ElCuboNegro/Keystone/blob/master/retro/docs/adr/ADR-0010-hybrid-wmi-pcsc-monitor.md) | Hybrid WMI + PC/SC monitor for real-time removal detection |
+| [ADR-0011](https://github.com/ElCuboNegro/Keystone/blob/master/retro/docs/adr/ADR-0011-two-factor-vault-cryptography.md) | Two-factor vault crypto: PBKDF2 + AES-256-GCM + HMAC deterministic filenames |
+| [ADR-0012](https://github.com/ElCuboNegro/Keystone/blob/master/retro/docs/adr/ADR-0012-startup-probe-before-poll-loop.md) | Startup probe before entering the SCardGetStatusChange poll loop |
 
 ---
 

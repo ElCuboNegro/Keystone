@@ -62,4 +62,4 @@ How can our monitor maintain the "inserted" state accurately, given that NfcCx c
 ## Related
 - Supersedes **ADR-0008** (RF re-wake).
 - Validates **ADR-0007** (SCardConnect retries) as the sole active connect-time mitigation.
-- See `knowledge/nfc/soulkey-architecture-research.md` (DLL analysis confirms AC logic relies on HID hooks).
+- See `retro/knowledge/nfc/soulkey-architecture-research.md` (DLL analysis confirms AC logic relies on HID hooks).

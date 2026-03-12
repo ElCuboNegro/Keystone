@@ -3,7 +3,7 @@
 **Status:** accepted
 **Deciders:** ASUS Keystone engineering team (inferred); confirmed by experiment
 **Date:** 2026-03-10
-**Technical Story:** Root cause of the "card readable for only milliseconds" bug. Confirmed via `experiments/nfc/experiment_01_baseline_card_read.py`.
+**Technical Story:** Root cause of the "card readable for only milliseconds" bug. Confirmed via `retro/experiments/nfc/experiment_01_baseline_card_read.py`.
 
 ---
 
@@ -94,5 +94,5 @@ Physically eject the card — only relevant for contact smart card readers with 
 - Supersedes: N/A
 - Related: [ADR-0003](ADR-0003-nfccx-no-escape-commands.md) — why RF field cannot be re-enabled via escape
 - Related: [ADR-0001](ADR-0001-pcsc-as-smartcard-abstraction.md) — PC/SC layer
-- Experiment: `experiments/nfc/experiment_01_baseline_card_read.py`
-- Knowledge: `knowledge/nfc/rf-field-timing.md`
+- Experiment: `retro/experiments/nfc/experiment_01_baseline_card_read.py`
+- Knowledge: `retro/knowledge/nfc/rf-field-timing.md`

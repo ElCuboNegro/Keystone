@@ -96,4 +96,4 @@ Terminate or suspend the competing process to remove contention entirely.
 - Related: [ADR-0002](ADR-0002-scard-unpower-card-root-cause.md) — RF field lifecycle and SCARD_UNPOWER_CARD
 - Related: [ADR-0003](ADR-0003-nfccx-no-escape-commands.md) — why NfcCx cannot re-enable RF via escape
 - Related: [ADR-0006](ADR-0006-card-trigger-via-atkhotkey-acpi.md) — ATKHotkey WM_INPUT trigger that ArmouryCrate also intercepts
-- Implementation: `keystone_nfc/monitor.py` — `_read_card()` retry loop and `_run()` inserted_fired guard
+- Implementation: `library/keystone_nfc/monitor.py` — `_read_card()` retry loop and `_run()` inserted_fired guard

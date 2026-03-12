@@ -94,4 +94,4 @@ Open-source NFC library with direct chip access.
 
 - Related: [ADR-0003](ADR-0003-nfccx-no-escape-commands.md) — NfcCx constraints
 - Related: [ADR-0005](ADR-0005-linux-port-requires-acr122u.md) — Linux porting strategy
-- Knowledge: `knowledge/smartcard/pcsc-api.md`
+- Knowledge: `retro/knowledge/smartcard/pcsc-api.md`

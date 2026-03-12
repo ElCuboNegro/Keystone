@@ -3,7 +3,7 @@
 **Status:** accepted
 **Deciders:** ASUS Keystone engineering team (inferred); NfcCx behavior confirmed by experiment
 **Date:** 2026-03-10
-**Technical Story:** Confirmed via `experiments/nfc/experiment_03_read_card_data.py` and `experiment_04_block_structure.py`. Output: `output/experiment_03_card_dump.json`, `output/experiment_04_block_structure.json`.
+**Technical Story:** Confirmed via `retro/experiments/nfc/experiment_03_read_card_data.py` and `experiment_04_block_structure.py`. Output: `retro/output/experiment_03_card_dump.json`, `retro/output/experiment_04_block_structure.json`.
 
 ---
 
@@ -81,6 +81,6 @@ On NfcCx, attempting to read a non-existent block returns SW=6981 which terminat
 ## Links
 
 - Related: [ADR-0003](ADR-0003-nfccx-no-escape-commands.md) — NfcCx constraints
-- Experiment: `experiments/nfc/experiment_03_read_card_data.py`
-- Experiment: `experiments/nfc/experiment_04_block_structure.py`
-- Knowledge: `knowledge/nfc/iso-15693.md`
+- Experiment: `retro/experiments/nfc/experiment_03_read_card_data.py`
+- Experiment: `retro/experiments/nfc/experiment_04_block_structure.py`
+- Knowledge: `retro/knowledge/nfc/iso-15693.md`
