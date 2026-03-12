@@ -10,6 +10,9 @@ jobs:
   build-library:
     name: Build Python Package
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: library
     steps:
       - uses: actions/checkout@v4
 
@@ -20,6 +23,7 @@ jobs:
 
       - name: Install build tool
         run: pip install build
+        working-directory: .
 
       - name: Build sdist and wheel
         run: python -m build
@@ -58,11 +62,11 @@ jobs:
       - name: Install package and PyInstaller
         # Install with [gui] optional dependencies so pyinstaller finds them
         run: |
-          pip install -e ".[gui]"
+          pip install -e "library/.[gui]"
           pip install pyinstaller
 
       - name: Build with PyInstaller
-        run: pyinstaller --noconfirm --onefile --windowed --name "KeystoneVault-${{ matrix.os-name }}" "DEMO/keystone_gui.py"
+        run: pyinstaller --noconfirm --onefile --windowed --name "KeystoneVault-${{ matrix.os-name }}" "demo/keystone_gui.py"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

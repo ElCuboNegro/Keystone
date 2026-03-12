@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional
 
+__all__ = ['CardInfo']
+
 
 # ISO 15693 manufacturer codes (byte 7 of UID, LSB-first = index 6)
 _MANUFACTURERS = {

@@ -7,6 +7,7 @@ capstone>=5.0.1            # Multi-architecture disassembler (x86, ARM, etc.)
 r2pipe>=1.9.0              # Radare2 API bridge (requires radare2 installed separately)
 
 # ─── NFC / Smart Card ────────────────────────────────────────────────────────
+pywin32>=306                # Windows: WMI card-removal detection (AsusAtkWmiEvent)
 # pyscard requires Visual Studio C++ build tools on Windows.
 # Install via pre-built wheel: pip install pyscard --find-links https://github.com/LudovicRousseau/pyscard/releases
 # OR: install Visual Studio Build Tools, then: pip install pyscard

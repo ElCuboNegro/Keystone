@@ -5,6 +5,8 @@ Tracks configured vault locations across sessions. A vault is "present" when
 its path exists on the filesystem — supports removable drives and network shares.
 """
 
+__all__ = ['VaultEntry', 'VaultRegistry', 'find_encrypted', 'REGISTRY_FILE', 'ENC_EXT']
+
 import json
 import os
 import uuid

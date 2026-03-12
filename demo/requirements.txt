@@ -1,0 +1,19 @@
+# DEMO/ — Keystone GUI demo dependencies
+#
+# Quickest install (recommended):
+#   pip install -e ".[gui]"    (from repo root — installs keystone_nfc + all GUI deps)
+#
+# Manual install (this file):
+#   pip install -r DEMO/requirements.txt
+#
+# Note: the library itself (keystone_nfc) has zero runtime dependencies.
+# All dependencies below are only needed by the GUI demo.
+
+watchdog>=4.0
+cryptography>=41.0
+pystray>=0.19
+Pillow>=10.0
+
+# Windows only: WMI listener for real-time card-removal detection (AsusAtkWmiEvent)
+# Without this, removal detection falls back to a best-effort PC/SC polling mode.
+pywin32>=306

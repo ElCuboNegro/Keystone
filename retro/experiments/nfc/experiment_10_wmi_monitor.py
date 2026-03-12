@@ -1,5 +1,5 @@
 import time
-import win32com.client
+import win32com.client  # type: ignore[import-untyped]
 
 def monitor_wmi():
     print("Connecting to WMI namespace root\\wmi...")

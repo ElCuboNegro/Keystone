@@ -26,6 +26,8 @@ Three mitigations this module applies:
    watching for AsusAtkWmiEvent (EventID 180).
 """
 
+__all__ = ['CardMonitor']
+
 import time
 import threading
 import logging
@@ -148,6 +150,13 @@ class CardMonitor:
         Physical re-insertion (remove then re-insert) is handled naturally:
         removal → WMI fires on_removed, re-insert → PRESENT → on_inserted fires
         again with fresh card data.
+
+        Startup probe: before entering the poll loop, we attempt a direct
+        SCardConnect.  This serves two purposes:
+          1. If the card is present and RF is on → we get it immediately.
+          2. If RF is off (ArmouryCrate killed it) → the connect attempt itself
+             signals NfcCx to resume RF polling.  We retry a few times with a
+             short delay to let NfcCx re-discover the card.
         """
         rs = SCARD_READERSTATE()
         rs.szReader = _str_arg(self.reader)
@@ -155,6 +164,29 @@ class CardMonitor:
 
         card_present = False
         self.inserted_fired = False
+
+        # ── Startup probe ─────────────────────────────────────────────────────
+        # Try direct connect before entering the polling loop.  Each attempt
+        # may trigger NfcCx to restart RF; allow up to 3 × 800 ms = 2.4 s.
+        log.debug('Startup probe: checking for card already in reader...')
+        for attempt in range(3):
+            if self._stop_event.is_set():
+                return
+            startup_card = self._read_card()
+            if startup_card:
+                log.info('Startup probe found card: %s', startup_card.uid_hex)
+                card_present = True
+                self.inserted_fired = True
+                if self.on_inserted:
+                    try:
+                        self.on_inserted(startup_card)
+                    except Exception as e:
+                        log.exception('on_inserted callback raised: %s', e)
+                break
+            log.debug('Startup probe attempt %d/3 — no card yet', attempt + 1)
+            self._stop_event.wait(0.8)
+        else:
+            log.debug('Startup probe: no card found — entering poll loop')
 
         while not self._stop_event.is_set():
             try:

@@ -352,7 +352,11 @@ class App:
         row = ttk.Frame(self._vault_frame, relief='solid', padding=(8, 6))
         row.pack(fill='x', pady=2)
 
-        ttk.Label(row, text=entry.name, font=('', 10, 'bold'), width=22, anchor='w').pack(side='left')
+        name_lbl = ttk.Label(row, text=entry.name, font=('', 10, 'bold'), width=22, anchor='w')
+        name_lbl.pack(side='left')
+        if is_open:
+            name_lbl.configure(foreground='#0066cc', cursor='hand2')
+            name_lbl.bind('<Button-1>', lambda _e, e=entry: self._open_folder(e))
         ttk.Label(row, text=label, foreground=color, width=10).pack(side='left')
 
         if is_open:

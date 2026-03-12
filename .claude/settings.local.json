@@ -32,7 +32,22 @@
       "Bash(cd \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\" && python folder_lock.py output --status)",
       "Bash(cd \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\" && python -c \"import watchdog; print\\('watchdog', watchdog.__version__\\)\" 2>&1; python -c \"import pystray; print\\('pystray ok'\\)\" 2>&1; python -c \"import PIL; print\\('PIL', PIL.__version__\\)\" 2>&1)",
       "Bash(find \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\" -type f -name \"*.toml\" -o -name \"setup.py\" -o -name \"setup.cfg\" -o -name \"MANIFEST.in\" -o -name \"requirements.txt\" -o -name \"README.md\" -o -name \"LICENSE\" -o -name \".gitignore\" -o -name \"CHANGELOG*\" 2>/dev/null | head -30)",
-      "Bash(find \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\" -name \"*test*\" -o -name \"*spec*\" 2>/dev/null | head -20)"
+      "Bash(find \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\" -name \"*test*\" -o -name \"*spec*\" 2>/dev/null | head -20)",
+      "Bash(cd /c/Users/jalba/Desktop/keystone && wc -l tests/*.py)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/jalba/desktop/keystone/**)",
+      "Bash(done)",
+      "Bash(cd /c/Users/jalba/Desktop/keystone && grep -l \"^__all__\" keystone_nfc/*.py)",
+      "Bash(echo \"\" > \"C:\\\\Users\\\\jalba\\\\Desktop\\\\keystone\\\\keystone_nfc\\\\py.typed\")",
+      "Bash(find C:Usersjalbadesktopkeystone -type f -exec ls -lhS {})",
+      "Bash(2)",
+      "Bash(sort -k2)",
+      "Bash(git mv:*)",
+      "Bash(ls -la demo/ 2>/dev/null && echo \"EXIT: $?\")",
+      "Bash(python -c \"import os; print\\(os.path.samefile\\('demo', 'DEMO'\\)\\)\")",
+      "Bash(ls *.md *.dot 2>/dev/null)",
+      "Bash(cd library:*)"
     ]
   }
 }

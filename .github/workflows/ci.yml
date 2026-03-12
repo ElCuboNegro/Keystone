@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & Lint
+    # PC/SC (WinSCard) is only available natively on Windows.
+    # Linux jobs would need pcsc-lite — add a separate job when porting is complete.
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    defaults:
+      run:
+        working-directory: library
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install -e ".[dev,vault]"
+
+      - name: Lint (ruff)
+        run: ruff check keystone_nfc/ folder_lock.py tests/
+
+      - name: Type check (mypy)
+        run: mypy keystone_nfc/
+
+      - name: Run tests (hardware-free)
+        # @pytest.mark.hardware tests require a physical card — skipped in CI
+        run: pytest tests/ -m "not hardware" -v --tb=short
+
+  linux-import:
+    name: Import check (Linux / pcsc-lite path)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: library
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pcsc-lite headers
+        run: sudo apt-get install -y libpcsclite-dev pcscd
+        working-directory: .
+
+      - name: Install package
+        run: pip install -e ".[dev,vault]"
+
+      - name: Verify import succeeds
+        run: python -c "import keystone_nfc; print('import OK')"
+
+      - name: Run non-hardware, non-Windows tests
+        run: pytest tests/ -m "not hardware" -v --tb=short

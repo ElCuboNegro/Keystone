@@ -4,7 +4,7 @@ build-backend = "setuptools.backends.legacy:build"
 
 [project]
 name = "keystone-nfc"
-version = "0.1.0"
+version = "0.2.0"
 description = "NFC card event monitoring and UID reading via PC/SC (WinSCard / pcsc-lite)"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -33,12 +33,13 @@ vault = [
     "watchdog>=4.0",
     "cryptography>=41.0",
 ]
-# Install to use the full GUI demo
+# Install to use the full GUI demo (pywin32 enables WMI card-removal detection on Windows)
 gui = [
     "watchdog>=4.0",
     "cryptography>=41.0",
     "pystray>=0.19",
     "Pillow>=10.0",
+    "pywin32>=306; sys_platform == 'win32'",
 ]
 # Developer tools
 dev = [
@@ -67,5 +68,5 @@ target-version = "py311"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts   = "-v --tb=short"
+addopts   = "-v --tb=short -p no:faulthandler"
 markers   = ["hardware: requires a physical NFC card in the reader"]

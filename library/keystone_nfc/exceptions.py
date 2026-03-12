@@ -2,6 +2,14 @@
 keystone_nfc.exceptions — All custom exceptions for the package.
 """
 
+__all__ = [
+    'KeystoneError',
+    'NoReaderError',
+    'NoCardError',
+    'CardRemovedError',
+    'PCSCError',
+]
+
 
 class KeystoneError(Exception):
     """Base exception for all keystone_nfc errors."""

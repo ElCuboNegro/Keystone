@@ -1,4 +1,4 @@
-import hid
+import hid  # type: ignore[import-untyped]
 import time
 
 print("Current HID devices:")

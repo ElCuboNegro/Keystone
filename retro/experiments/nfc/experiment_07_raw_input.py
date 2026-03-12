@@ -2,8 +2,8 @@ import ctypes
 from ctypes import wintypes
 import sys
 
-user32 = ctypes.windll.user32
-kernel32 = ctypes.windll.kernel32
+user32 = getattr(ctypes, "windll").user32  # type: ignore[attr-defined]
+kernel32 = getattr(ctypes, "windll").kernel32  # type: ignore[attr-defined]
 
 WM_INPUT = 0x00FF
 RIDEV_INPUTSINK = 0x00000100
@@ -18,7 +18,7 @@ class RAWINPUTDEVICE(ctypes.Structure):
 
 # Need proper pointer types for 64-bit Windows
 LRESULT = ctypes.c_ssize_t
-WNDPROC = ctypes.WINFUNCTYPE(LRESULT, wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM)
+WNDPROC = ctypes.WINFUNCTYPE(LRESULT, wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM)  # type: ignore
 
 class WNDCLASSEX(ctypes.Structure):
     _fields_ = [
@@ -51,10 +51,10 @@ def main():
     hinst = kernel32.GetModuleHandleW(None)
     
     wndclass = WNDCLASSEX()
-    wndclass.cbSize = ctypes.sizeof(WNDCLASSEX)
-    wndclass.lpfnWndProc = wndproc
-    wndclass.hInstance = hinst
-    wndclass.lpszClassName = "RawInputMonitor"
+    wndclass.cbSize = ctypes.sizeof(WNDCLASSEX)  # type: ignore
+    wndclass.lpfnWndProc = wndproc  # type: ignore
+    wndclass.hInstance = hinst  # type: ignore
+    wndclass.lpszClassName = "RawInputMonitor"  # type: ignore
     
     if not user32.RegisterClassExW(ctypes.byref(wndclass)):
         print("Failed to register window class")
@@ -78,17 +78,17 @@ def main():
         (0xFF31, 0x00), # ASUS Aura?
     ]
     
-    rid_array = (RAWINPUTDEVICE * len(pages_to_monitor))()
+    rid_array = (RAWINPUTDEVICE * len(pages_to_monitor))()  # type: ignore
     for i, (page, usage) in enumerate(pages_to_monitor):
         rid_array[i].usUsagePage = wintypes.USHORT(page)
         rid_array[i].usUsage = wintypes.USHORT(usage)
         rid_array[i].dwFlags = wintypes.DWORD(RIDEV_INPUTSINK)
         rid_array[i].hwndTarget = hwnd
 
-    ctypes.set_last_error(0)
+    ctypes.set_last_error(0)  # type: ignore
     success = user32.RegisterRawInputDevices(rid_array, len(pages_to_monitor), ctypes.sizeof(RAWINPUTDEVICE))
     if not success:
-        err = ctypes.get_last_error()
+        err = ctypes.get_last_error()  # type: ignore
         print(f"Failed to register raw input devices. Error: {err}")
         return
         

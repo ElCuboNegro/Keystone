@@ -9,6 +9,8 @@ Threading: all callbacks fire from the watchdog observer thread.
 The caller must post to a UI queue if they need to update widgets.
 """
 
+__all__ = ['VaultWatcher']
+
 import threading
 import logging
 from pathlib import Path

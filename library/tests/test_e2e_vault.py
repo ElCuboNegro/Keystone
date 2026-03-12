@@ -41,15 +41,25 @@ _TEST_PW     = 'test-password-e2e'
 
 @pytest.fixture(scope='module')
 def card() -> CardInfo:
-    """Read the physical card (hardware required)."""
+    """Read the physical card (hardware required).
+
+    IMPORTANT: Due to ASUS ArmouryCrate killing the RF field after each read,
+    the card must be inserted AFTER this fixture starts — not before.
+    If the card is already in the reader: REMOVE it, wait for the prompt, then re-insert.
+    """
+    print('\n')
+    print('  +------------------------------------------------------+')
+    print('  | [HARDWARE] Insert your Keystone card NOW (30s)...   |')
+    print('  | If card is already in: remove it, then re-insert.   |')
+    print('  +------------------------------------------------------+')
     try:
-        c = KeystoneReader().read_once(timeout=15.0)
+        c = KeystoneReader().read_once(timeout=30.0)
         print(f'\n  Card UID: {c.uid_hex}  Manufacturer: {c.manufacturer}')
         return c
     except NoReaderError:
         pytest.skip('No NFC reader available')
     except NoCardError:
-        pytest.skip('No card detected within 15s — insert card and re-run')
+        pytest.skip('No card detected within 30s — insert card while test is running')
 
 
 @pytest.fixture(scope='module')

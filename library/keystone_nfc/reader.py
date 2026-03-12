@@ -25,6 +25,8 @@ Synchronous one-shot read:
     print(card.uid_hex)
 """
 
+__all__ = ['KeystoneReader']
+
 import threading
 import time
 import logging
@@ -125,6 +127,11 @@ class KeystoneReader:
         timeout: max seconds to wait for a card (default 30s)
         Raises NoCardError if timeout elapses before a card is detected.
         Raises NoReaderError if no reader is available.
+
+        Detection strategy (two parallel paths race to set the done event):
+        1. PC/SC monitor (SCardGetStatusChange) — catches SCARD_STATE_PRESENT transitions
+        2. WMI Event 180 trigger (Windows only) — fires immediately on physical insertion,
+           then retries SCardConnect to beat the ArmouryCrate exclusive-lock window
         """
         result: List[Optional[CardInfo]] = [None]
         done = threading.Event()
