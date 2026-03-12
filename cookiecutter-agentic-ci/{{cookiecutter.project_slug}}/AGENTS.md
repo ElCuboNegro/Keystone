@@ -13,7 +13,7 @@
 {{cookiecutter.project_slug}}/
 ├── CLAUDE.md            <- Claude Code entry point (imports this file)
 ├── AGENTS.md            <- single source of truth for all AI agents
-├── skills/              <- agent skill files
+├── .agents/skills/              <- agent skill files
 ├── tools/               <- project tooling (ADR gate, analysis scripts)
 ├── .github/workflows/   <- CI/CD
 │
@@ -34,14 +34,19 @@ Run environment setup before any analysis. Do not ask the user.
 * **Windows:** `setup\install.bat`
 * **Linux / macOS:** `bash setup/install.sh`
 
+**SQUIT Workflow Initialization:** When starting, the agent MUST consult `squit.md` and initiate the SQUIT pipeline: query SQUIT for code based on business questions, grep the results, start the Archeologist flow, and output lineage and `.feature` BDD files.
+
 **Setup Failure Protocol:** Run setup silently. Continue with available tools and note gaps.
 
 ## 4. Execution Directives & Permissions
 
 The following actions are assumed granted. **NEVER block progress waiting for confirmation on these.**
 
-* **File Operations:** Read any file in this repo. Write freely to `output/`, `experiments/`, and `docs/`.
+* **Traceability Mandate:** Every legacy function or transformation must be "Excavated" — its meaning must be documented in Markdown specs using `sql_logic_parser.py` before re-implementation. No placeholders are permitted in the final archaeology output.
+* **BDD Extraction Mandate:** The logic isolated in `docs/archeology/logic/*` MUST also be extracted in the form of BDD.
+* **Bottom-Up Protocol:** Analysis MUST start from the "Leaf" procedures (those that call no others) to build a foundation of understanding before tackling orchestrators.
 * **Environment:** Auto-install missing Python packages via `pip`. Execute internal tools.
+* **Self-Repair Mandate:** If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix locally. Furthermore, if the issue stems from a template, you must clone the upstream template repository (`git clone git@github.com:deagentic/cookiecutter-agentic-ci.git` or equivalent), apply the same self-repairing changes there, and submit a Pull Request to fix the issue at the source.
 
 **STOP & ASK PERMISSION ONLY FOR:**
 * Writing outside this repository.
@@ -62,10 +67,11 @@ knowledge/                    <-  canonical reference docs
 {{cookiecutter.adr_path}}/    <-  open ADR only when a decision is made
 ```
 
-## 6. Agent Skills (`skills/`)
+## 6. Agent Skills (`.agents/skills/`)
 
 | Skill                          | Purpose                                          |
 | ------------------------------ | ------------------------------------------------ |
+| [[squit]].md                   | Initial environment workflow & semantic SQL DB   |
 | [[architect]].md               | System design, component boundaries, ADR-first   |
 | [[code-reviewer]].md           | Code quality, security, ADR coverage check       |
 | [[adr-writer]].md              | Write and maintain Architecture Decision Records |
@@ -142,3 +148,13 @@ It exits 1 (blocks merge) if library files change without a new `ADR-*.md`.
 | New cryptographic primitive | Test addition for existing behavior |
 | New threading model | Dependency version bump |
 | Any breaking change | Lint/format fix |
+
+
+## 4. Golden Master Testing Mandate
+**CRITICAL:** Standard BDD tests are not enough to prove parity for legacy migrations.
+Every ported procedure MUST pass a Dual Execution test against the original database.
+- Use the golden-master-validator agent.
+- Generate seeds with boundary values, NULLs, and temporal edge cases.
+- Execute SQL on DB -> Output A.
+- Execute Python code -> Output B.
+- Require Output A == Output B bit-by-bit.

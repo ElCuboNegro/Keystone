@@ -1,6 +1,8 @@
 # Architecture Decision Records
 
-Managed by `skills/adr-writer.md`. Do not edit ADR files once accepted — supersede them with a new ADR.
+Managed by `.agents/skills/software/architecture/adr-writer/SKILL.md`. Do not edit ADR files once accepted — supersede them with a new ADR.
+
+- [ADR-0001-non-ai-deduplication-pipeline.md](ADR-0001-non-ai-deduplication-pipeline.md)
 
 | ID | Title | Status | Date | Domain |
 |----|-------|--------|------|--------|

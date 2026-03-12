@@ -1,0 +1,22 @@
+digraph ExecutionsGraph {
+    rankdir=TB;
+    node [shape=box, style=filled, color=lightblue];
+
+    User [label="Developer\n(runs cookiecutter)", shape=ellipse, color=lightgrey];
+    Engine [label="Cookiecutter Engine\n(cookiecutter.json)"];
+    TemplateRender [label="Template Rendering\n(Jinja2)"];
+    RawCopy [label="Raw Copy\n(_copy_without_render)"];
+    Hook [label="Post-Generation Hook\n(post_gen_project.py)"];
+    PatchFiles [label="Patch Placeholders\n(__LIBRARY_PATH__ => value)"];
+    FinalOutput [label="Generated Project\n(Agentic CI Repo)", shape=folder, color=lightgreen];
+
+    User -> Engine [label="CLI Execution"];
+    Engine -> TemplateRender [label="Parses Variables"];
+    Engine -> RawCopy [label="Skips Rendering"];
+    
+    TemplateRender -> Hook [label="Triggers Post Hook"];
+    RawCopy -> Hook [label="Passes Raw Files"];
+    
+    Hook -> PatchFiles [label="Executes Python Script"];
+    PatchFiles -> FinalOutput [label="Yields Final Structure"];
+}

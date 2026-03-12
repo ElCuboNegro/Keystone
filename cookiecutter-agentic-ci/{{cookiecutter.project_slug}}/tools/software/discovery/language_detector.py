@@ -36,9 +36,36 @@ BUILD_SYSTEM_EXTS = {
 
 # Pattern -> (description, category)
 HARDWARE_API_PATTERNS = {
-    # Add domain-specific or hardware APIs here
-    # Example:
-    # 'DeviceIoControl':       ('Windows: DeviceIoControl', 'winapi'),
+    # Windows Smart Card / PC/SC
+    'SCardEstablishContext': ('PC/SC: Establish context', 'winscard'),
+    'SCardConnect':          ('PC/SC: Connect to card', 'winscard'),
+    'SCardTransmit':         ('PC/SC: Send APDU', 'winscard'),
+    'SCardDisconnect':       ('PC/SC: Disconnect', 'winscard'),
+    'SCardBeginTransaction': ('PC/SC: Begin transaction', 'winscard'),
+    'SCardEndTransaction':   ('PC/SC: End transaction', 'winscard'),
+    'SCardGetStatusChange':  ('PC/SC: Poll reader state change', 'winscard'),
+    'SCardListReaders':      ('PC/SC: List available readers', 'winscard'),
+    'SCardControl':          ('PC/SC: Send control/escape command', 'winscard'),
+    'winscard':              ('WinSCard library import/link', 'winscard'),
+    'pcsclite':              ('PC/SC Lite (Linux/macOS)', 'pcsc-linux'),
+    # NFC / ISO protocols
+    'ISO15693':              ('ISO 15693 Vicinity Card protocol', 'nfc'),
+    'ISO14443':              ('ISO 14443 Proximity Card protocol', 'nfc'),
+    'APDU':                  ('Application Protocol Data Unit', 'nfc'),
+    'ACR122':                ('ACR122U NFC reader', 'nfc'),
+    'libnfc':                ('libnfc library', 'nfc'),
+    'nfc_open':              ('libnfc: open device', 'nfc'),
+    'nfc_initiator':         ('libnfc: initiator mode', 'nfc'),
+    'FF000000':              ('ACR122U escape command prefix', 'nfc'),
+    # USB / HID
+    'libusb':                ('LibUSB direct USB access', 'usb'),
+    'hidapi':                ('HIDAPI (HID device access)', 'usb'),
+    'WinUSB':                ('WinUSB driver', 'usb'),
+    'DeviceIoControl':       ('Windows: DeviceIoControl', 'winapi'),
+    'CreateFile':            ('Windows: CreateFile (device handle)', 'winapi'),
+    'SetupDiGetClassDevs':   ('Windows: Device enumeration', 'winapi'),
+    'RegisterDeviceNotification': ('Windows: Device hotplug events', 'winapi'),
+    'CM_Register_Notification':   ('Windows: PnP notifications', 'winapi'),
 }
 
 IGNORE_DIRS = {
@@ -110,10 +137,12 @@ def detect_language(path: Path) -> dict:
 
     # Infer platform
     categories = {h['category'] for h in hardware_hits.values()}
-    if 'winapi' in categories:
+    if 'winscard' in categories or 'winapi' in categories:
         platform = 'Windows'
-    elif 'posix' in categories:
+    elif 'pcsc-linux' in categories:
         platform = 'Linux/Unix'
+    elif 'nfc' in categories:
+        platform = 'Cross-platform NFC'
     else:
         platform = 'Unknown'
 

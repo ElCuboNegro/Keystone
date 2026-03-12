@@ -193,10 +193,32 @@ def _porting_notes(platform: str, by_group: dict) -> list[str]:
             '| Windows API | Linux Equivalent | Notes |',
             '|-------------|-----------------|-------|',
         ]
+        if 'winscard' in by_group:
+            notes += ['| `winscard.dll` / WinSCard | `libpcsclite` + `ccid` driver | API is nearly identical (same function names) |']
+            notes += ['| `SCardEstablishContext` | Same (pcsclite) | Drop-in compatible |']
+            notes += ['| `SCardControl` (escape) | Same (pcsclite) | ACR122U escape commands work |']
         if 'winapi' in by_group:
             notes += ['| `CreateFile` | `open()` / `libusb_open()` | Device paths differ |']
             notes += ['| `DeviceIoControl` | `ioctl()` | Different call signature |']
             notes += ['| `RegisterDeviceNotification` | `udev` / `libudev` | Completely different model |']
+        notes += [
+            '',
+            '**Recommended Linux stack:**',
+            '```',
+            'ACR122U → pcscd (pcsc-lite daemon) → libpcsclite → your app',
+            '  OR',
+            'ACR122U → libnfc (direct USB, no pcscd needed)',
+            '```',
+            '',
+            '**Key issue — RF field timing:**',
+            'The millisecond card-read problem is likely caused by one of:',
+            '1. `SCardDisconnect` called with `SCARD_UNPOWER_CARD` — turns off RF field',
+            '2. No `SCardBeginTransaction` — card is deselected between operations',
+            '3. `SCardGetStatusChange` timeout set too low',
+            '4. ACR122U firmware auto-polling disabled via escape command',
+            '',
+            'To fix on Linux: use `SCARD_LEAVE_CARD` disposition and wrap reads in `SCardBeginTransaction`.',
+        ]
     return notes
 
 

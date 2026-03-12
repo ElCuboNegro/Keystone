@@ -13,5 +13,8 @@ This directory contains the baseline, general-purpose software analysis tools bu
 - **`api_mapper.py`**: Maps external system API calls across the codebase.
 - **`decision_extractor.py`**: Parses hardcoded constants, FIXME/TODO comments, and explicit architectural choices.
 - **`reporter.py`**: Synthesizes output from the above modules into JSON or Markdown.
+- **`sql_procedure_analyzer.py`**: Analyzes T-SQL stored procedures to build a dependency database (`codebase_index.db`).
+- **`sql_topology.py`**: Generalizable Python utility to query `codebase_index.db` for architectural topology (e.g. root and leaf procedures).
+- **`sql_logic_parser.py`**: Extracts fields, filters, and complex transformations from SQL logic to generate markdown specifications.
 
 *If you encounter a new language or stack not supported by these baseline tools, invoke the **Tool Writer Agent** to augment these tools defensively.*

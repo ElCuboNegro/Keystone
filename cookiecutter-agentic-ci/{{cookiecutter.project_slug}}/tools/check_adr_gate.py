@@ -30,8 +30,8 @@ from pathlib import PurePosixPath
 # ---------------------------------------------------------------------------
 
 GUARDED_PATTERNS = [
-    "library/deacero_analysis/*.py",
-    "library/deacero_analysis/**/*.py",
+    "__LIBRARY_PATH__/__PACKAGE_NAME__/*.py",
+    "__LIBRARY_PATH__/__PACKAGE_NAME__/**/*.py",
 ]
 
 EXCLUSION_PATTERNS = [
@@ -39,7 +39,7 @@ EXCLUSION_PATTERNS = [
     "*.pyc",
 ]
 
-ADR_PATTERN = "docs/adr/ADR-*.md"
+ADR_PATTERN = "__ADR_PATH__/ADR-*.md"
 
 SKIP_TOKEN = "[skip-adr]"
 
@@ -140,13 +140,13 @@ Changed library files:
 {changed_list}
 
 Required action:
-  1. Write an ADR in docs/adr/ADR-NNNN-<decision-title>.md
+  1. Write an ADR in __ADR_PATH__/ADR-NNNN-<decision-title>.md
   2. Document the design decision, alternatives considered, and rationale
-  3. Include 'Implementation: library/...' link in the ADR
+  3. Include 'Implementation: __LIBRARY_PATH__/...' link in the ADR
   4. Then commit the code change together with the ADR
 
 To bypass (trivial fixes only): add [skip-adr] to your commit message.
-See docs/adr/index.md for ADR writing guidance.
+See __ADR_PATH__/index.md for ADR writing guidance.
 """.strip()
 
     print("\n" + message)

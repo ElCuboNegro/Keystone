@@ -63,6 +63,14 @@ ERROR_SWALLOW_RE = re.compile(
     re.IGNORECASE | re.DOTALL
 )
 
+# WinSCard specific
+SCARD_CONSTANT_RE = re.compile(r'\bSCARD_[A-Z_]+\b')
+APDU_COMMAND_RE = re.compile(r'(?:0x[0-9A-Fa-f]{2},?\s*){4,}')  # 4+ bytes = likely APDU
+
+# PC/SC Share mode / disposition decisions
+SHARE_MODE_RE = re.compile(r'SCARD_SHARE_(SHARED|EXCLUSIVE|DIRECT)')
+DISPOSITION_RE = re.compile(r'SCARD_(LEAVE_CARD|RESET_CARD|UNPOWER_CARD|EJECT_CARD)')
+
 
 def extract_decisions(path: Path, tech_stack: dict) -> dict:
     """
@@ -93,6 +101,7 @@ def extract_decisions(path: Path, tech_stack: dict) -> dict:
         all_decisions.extend(_scan_timeouts(lines, rel))
         all_decisions.extend(_scan_byte_sequences(lines, rel))
         all_decisions.extend(_scan_threading(lines, rel))
+        all_decisions.extend(_scan_winscard_choices(lines, rel))
 
     by_kind: dict[str, list] = {}
     for d in all_decisions:
@@ -146,6 +155,14 @@ def _scan_constants(lines: list[str], rel: str, tech_stack: dict) -> list[Decisi
                 file=rel, line=i, snippet=stripped[:120]
             ))
             continue
+
+        # APDU-style 4-byte commands
+        if APDU_COMMAND_RE.search(line) and ('0xFF' in line or '0x00' in line or 'FF' in line.upper()):
+            decisions.append(Decision(
+                kind='protocol',
+                description='Possible APDU command bytes',
+                file=rel, line=i, snippet=stripped[:120]
+            ))
 
         # Magic numbers (not in obvious index/size contexts)
         for m in MAGIC_NUMBER_RE.finditer(line):
@@ -226,6 +243,37 @@ def _scan_threading(lines: list[str], rel: str) -> list[Decision]:
                     description=f'Concurrency/threading: {token}',
                     file=rel, line=i, snippet=line.strip()[:120]
                 ))
+    return decisions
+
+
+def _scan_winscard_choices(lines: list[str], rel: str) -> list[Decision]:
+    """Flag PC/SC-specific choices that affect behavior significantly."""
+    decisions = []
+    for i, line in enumerate(lines, 1):
+        m = SHARE_MODE_RE.search(line)
+        if m:
+            decisions.append(Decision(
+                kind='protocol',
+                description=f'PC/SC share mode choice: {m.group(0)} — affects multi-app access',
+                file=rel, line=i, snippet=line.strip()[:120]
+            ))
+        m2 = DISPOSITION_RE.search(line)
+        if m2:
+            decisions.append(Decision(
+                kind='protocol',
+                description=f'PC/SC card disposition on disconnect: {m2.group(0)} — affects card state',
+                file=rel, line=i, snippet=line.strip()[:120]
+            ))
+        for m3 in SCARD_CONSTANT_RE.finditer(line):
+            val = m3.group(0)
+            if val not in {'SCARD_S_SUCCESS', 'SCARD_E_NO_SERVICE'}:
+                decisions.append(Decision(
+                    kind='protocol',
+                    description=f'PC/SC constant usage: {val}',
+                    file=rel, line=i, snippet=line.strip()[:120]
+                ))
+                break  # one per line
+
     return decisions
 
 

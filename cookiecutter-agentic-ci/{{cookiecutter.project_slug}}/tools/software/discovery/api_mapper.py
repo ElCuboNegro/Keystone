@@ -12,11 +12,40 @@ from collections import defaultdict
 
 # Known API groups to track — extend as needed
 API_GROUPS = {
-    # Example:
-    # 'winapi': {
-    #     'CreateFile', 'CloseHandle', 'ReadFile', 'WriteFile',
-    #     'DeviceIoControl', 'SetupDiGetClassDevs',
-    # },
+    'winscard': {
+        'SCardEstablishContext', 'SCardReleaseContext',
+        'SCardConnect', 'SCardDisconnect', 'SCardReconnect',
+        'SCardBeginTransaction', 'SCardEndTransaction',
+        'SCardTransmit', 'SCardControl',
+        'SCardGetStatusChange', 'SCardListReaders',
+        'SCardGetAttrib', 'SCardSetAttrib',
+        'SCardStatus', 'SCardFreeMemory',
+    },
+    'libnfc': {
+        'nfc_open', 'nfc_close', 'nfc_init', 'nfc_exit',
+        'nfc_initiator_init', 'nfc_initiator_select_passive_target',
+        'nfc_initiator_deselect_target', 'nfc_initiator_transceive_bytes',
+        'nfc_device_set_property_bool', 'nfc_device_get_name',
+        'nfc_list_devices',
+    },
+    'libusb': {
+        'libusb_init', 'libusb_exit', 'libusb_open', 'libusb_close',
+        'libusb_get_device_list', 'libusb_get_device_descriptor',
+        'libusb_open_device_with_vid_pid', 'libusb_claim_interface',
+        'libusb_bulk_transfer', 'libusb_control_transfer',
+        'libusb_interrupt_transfer', 'libusb_release_interface',
+    },
+    'winapi': {
+        'CreateFile', 'CloseHandle', 'ReadFile', 'WriteFile',
+        'DeviceIoControl', 'SetupDiGetClassDevs',
+        'SetupDiEnumDeviceInterfaces', 'SetupDiGetDeviceInterfaceDetail',
+        'RegisterDeviceNotification', 'CM_Register_Notification',
+    },
+    'hidapi': {
+        'hid_open', 'hid_close', 'hid_read', 'hid_write',
+        'hid_send_feature_report', 'hid_get_feature_report',
+        'hid_enumerate', 'hid_free_enumeration', 'hid_init', 'hid_exit',
+    },
 }
 
 # Build reverse lookup: function → group
@@ -148,5 +177,6 @@ def _scan_regex(f: Path, rel: str) -> list[dict]:
 def _looks_external(name: str) -> bool:
     """Heuristic for external/system API calls."""
     return (
-        (len(name) > 3 and name[0].isupper() and name[1].islower())
+        (len(name) > 3 and name[0].isupper() and name[1].islower()) or
+        name.startswith(('nfc_', 'hid_', 'usb_', 'scard', 'win32', 'ctypes'))
     )

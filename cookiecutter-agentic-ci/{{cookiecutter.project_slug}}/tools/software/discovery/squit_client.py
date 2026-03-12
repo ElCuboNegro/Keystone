@@ -10,8 +10,7 @@ class SquitClient:
         self.base_url = base_url
         self.headers = {
             "X-API-Key": self.api_key,
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Content-Type": "application/json"
         }
 
     def _call_tool(self, tool_name, arguments):
