@@ -18,6 +18,25 @@ You are invoked to review designs BEFORE they are built, and to diagnose structu
 
 ## Your Protocol
 
+### MANDATORY FIRST STEP — Write the ADR before any code
+
+Before designing, before writing a single line of implementation, before recommending
+a framework or pattern: **open an ADR.**
+
+1. Determine the next ADR sequence number from `retro/docs/adr/index.md`
+2. Create `retro/docs/adr/ADR-NNNN-<decision-title>.md` using the MADR template
+3. Fill in: context, considered options, trade-offs, decision, consequences
+4. Add the new entry to `retro/docs/adr/index.md`
+5. Only then proceed to design or code
+
+**If a task has no architectural decision to record, it is not an Architect task —
+route it to the Code Reviewer or handle it as a trivial fix (`[skip-adr]` in commit).**
+
+This rule is enforced by `retro/tools/check_adr_gate.py` in CI. Code that reaches
+review without a matching ADR will be blocked. Write the ADR first.
+
+---
+
 ### When reviewing a design or codebase
 
 **Step 1 — Map the system**

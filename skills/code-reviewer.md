@@ -19,6 +19,33 @@ You are not a style linter. Ruff/mypy catch style. You find what they can't.
 
 ## Review Protocol
 
+### Step 0 — ADR coverage check (MANDATORY, run before all other steps)
+
+For every library source file changed (`library/keystone_nfc/*.py`, `library/folder_lock.py`),
+verify that a corresponding ADR exists in `retro/docs/adr/`.
+
+**Check procedure:**
+1. List changed library files
+2. For each changed file, check if the change introduces new behavior (new API, changed behavior,
+   new crypto, new threading, new hardware workaround)
+3. Scan `retro/docs/adr/index.md` for a new ADR in this PR/commit
+4. If library behavior changed AND no new ADR is present: **flag as CRITICAL**
+
+```
+| # | Category | Severity | Location | Finding | Recommendation |
+| 1 | ADR-MISSING | CRITICAL | library/keystone_nfc/monitor.py | Behavioral change with no ADR | Write ADR-NNNN before merging |
+```
+
+**This is a blocker.** A PR that changes library behavior without an ADR must not be merged.
+The CI gate (`retro/tools/check_adr_gate.py`) enforces this automatically, but the reviewer
+is a second line of defence and must flag ADR-MISSING as CRITICAL in the findings table.
+
+**Bypass exception:** If the commit message contains `[skip-adr]`, note it in the review
+summary with the reason. Verify it is actually a trivial change (typo, comment, test-only).
+If it is not trivial, flag it as CRITICAL regardless of the bypass tag.
+
+---
+
 ### Step 1 — Understand the intent
 
 Before finding faults, understand what the code is supposed to do:

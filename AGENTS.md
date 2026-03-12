@@ -26,6 +26,8 @@ keystone/
 │   ├── knowledge/     ← standards, datasheets, research
 │   ├── context/       ← per-session run state
 │   ├── output/        ← generated reports & findings
+│   │   └── findings/
+│   │       └── FINDINGS.md  ← ARCHAEOLOGY LEDGER (append-only, always update first)
 │   └── docs/adr/      ← architectural decisions (retro)
 │
 ├── library/           ← KEYSTONE-NFC LIBRARY
@@ -63,9 +65,24 @@ The following operational permissions are assumed granted. **NEVER block progres
 ## 5. Context & Knowledge Management
 Strict separation of concerns is required. Keep this `CLAUDE.md` file clean and universally applicable.
 
-* **Project Context (`retro/context/`):** Store all actual run data, target-specific states, and session variables in `retro/context/[domain]/run_context.md`. Do not pollute agent skill files with project-specific data.
-* **Global Knowledge (`retro/knowledge/`):** Save universally applicable learnings (standards, protocols, hardware quirks) to `retro/knowledge/[domain]/[name].md`. Always update `retro/knowledge/INDEX.md` and cross-link to relevant agent skill files.
+* **Findings Ledger (`retro/output/findings/FINDINGS.md`):** **Always update first.** Every significant observation during archaeology — from experiments, DLL analysis, string extraction, or code reading — gets an entry here before anywhere else. This is the single source of truth for what has been discovered and how. See the template at the bottom of that file.
+* **Project Context (`retro/context/`):** Store all actual run data, target-specific states, and session variables in `retro/context/[domain]/run_context.md`. Only confirmed findings that are stable session facts go here — not raw observations (those go in the ledger first).
+* **Global Knowledge (`retro/knowledge/`):** Save universally applicable learnings (standards, protocols, hardware quirks) to `retro/knowledge/[domain]/[name].md`. Always update `retro/knowledge/INDEX.md` and cross-link to relevant agent skill files. Knowledge files are written *from* ledger entries, not directly.
 * **Skill Evolution (`deagentic/Skills`):** When a generic capability is developed, abstract it away from `Keystone` and port it to the `Skills` repository.
+
+### Information flow during archaeology
+
+```
+Raw discovery
+    ↓
+FINDINGS.md  ←  append entry (F-XXX)
+    ↓
+retro/context/[domain]/run_context.md  ←  update confirmed facts
+    ↓
+retro/knowledge/  ←  write canonical reference doc (if broadly applicable)
+    ↓
+retro/docs/adr/   ←  open ADR only when a decision is made (not just observed)
+```
 
 ## 6. Tool & Skill Inventory
 
@@ -99,11 +116,13 @@ When encountering an unknown variable, follow `skills/unknown-domain-protocol.md
 All generated reports must be routed to the `retro/output/` directory (create it if missing).
 
 Expected file structures:
+* `retro/output/findings/FINDINGS.md` (**Archaeology Ledger — update on every finding, always first**)
 * `retro/output/probe_results.json` (Hardware probe output)
 * `retro/output/dll_analysis.md` (DLL static analysis)
 * `retro/output/retro-report.md` (Codebase retro-engineering report)
 * `retro/output/retro-report.dot` (Call graph format)
-* `retro/output/findings/` (Directory for freeform research notes and experiment logs)
+
+The Findings Ledger is the primary deliverable of the archaeology phase. ADRs document decisions made *as a result* of findings — they are downstream, not the source.
 
 ## 9. Role Separation — Archeologist vs Architect
 
@@ -136,6 +155,48 @@ Rules:
 * Demos import from libraries via standard Python imports (not copy-paste)
 * Every component (library, demo, experiment) must have its own `docs/adr/index.md`
 * Every project/component/reimplementation must be FULLY DOCUMENTED
+
+## 12. ADR-First Mandate
+
+**HARD STOP. No exceptions. No bypasses except trivial fixes.**
+
+> **You must write an ADR before changing any library source code.**
+
+This applies to:
+- Any file in `library/keystone_nfc/*.py`
+- `library/folder_lock.py`
+- Any new library module added to `library/`
+
+### The rule
+
+1. **Discovery** — identify the design decision or integration change needed
+2. **Write the ADR** — create `retro/docs/adr/ADR-NNNN-<decision-title>.md`
+   - Next sequence number from `retro/docs/adr/index.md`
+   - Document: context, considered options, decision, positive/negative consequences
+   - Include `Implementation: library/...` link
+   - Add to `retro/docs/adr/index.md`
+3. **Then write the code** — commit the ADR and the code change together
+
+### CI enforcement
+
+`retro/tools/check_adr_gate.py` runs on every push and PR.
+It exits 1 (blocks merge) if library files change without a new `ADR-*.md` in `retro/docs/adr/`.
+
+**Bypass** (trivial fixes only — typos, comment edits, test-only changes):
+Add `[skip-adr]` to the commit message. This bypass is logged and will be audited.
+
+### What counts as a design decision requiring an ADR?
+
+| Requires ADR | Does NOT require ADR (`[skip-adr]` OK) |
+|---|---|
+| New public API (function, class, parameter) | Typo fix in docstring |
+| Changed behavior of existing API | Comment clarification |
+| New cryptographic primitive or parameter | Test addition for existing behavior |
+| New threading model or synchronization | Dependency version bump |
+| New hardware workaround or PC/SC pattern | Lint/format fix |
+| Any change to the vault blob format | Refactor with identical external behavior (must prove it) |
+
+---
 
 ## 11. Experiment Isolation — Docker
 

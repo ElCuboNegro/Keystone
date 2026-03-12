@@ -7,6 +7,40 @@ on:
     branches: [main]
 
 jobs:
+  adr-gate:
+    name: ADR Gate — library changes require a new ADR
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for diff
+
+      - name: Get changed files
+        id: diff
+        run: |
+          BASE=${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD=${{ github.sha }}
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            BASE=$(git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD)
+          fi
+          CHANGED=$(git diff --name-only "$BASE" "$HEAD" 2>/dev/null || git diff --name-only HEAD~1 HEAD)
+          echo "changed<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          # New ADR files added in this commit
+          NEW=$(git diff --name-only --diff-filter=A "$BASE" "$HEAD" 2>/dev/null || git diff --name-only --diff-filter=A HEAD~1 HEAD)
+          echo "new_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$NEW" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Run ADR gate
+        run: |
+          python retro/tools/check_adr_gate.py \
+            --changed-files "${{ steps.diff.outputs.changed }}" \
+            --new-files "${{ steps.diff.outputs.new_files }}" \
+            --commit-message "${{ github.event.head_commit.message || '' }}"
+
   test:
     name: Test & Lint
     # PC/SC (WinSCard) is only available natively on Windows.
